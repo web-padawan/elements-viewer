@@ -16,6 +16,7 @@
     "vaadin-item": "^2.0.0-alpha5",
     "vaadin-list-box": "^1.0.0-alpha8",
     "vaadin-ordered-layout": "^1.0.0-alpha7",
+    "vaadin-progress-bar": "1.0.0-alpha12",
     "vaadin-tabs": "2.0.0-alpha6",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.1.0"
   }

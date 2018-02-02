@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/vaadin-item/vaadin-item.html">
 <link rel="import" href="../bower_components/vaadin-list-box/vaadin-list-box.html">
 <link rel="import" href="../bower_components/vaadin-ordered-layout/vaadin-horizontal-layout.html">
+<link rel="import" href="../bower_components/vaadin-progress-bar/vaadin-progress-bar.html">
 <link rel="import" href="../bower_components/vaadin-tabs/vaadin-tabs.html">
 
 <link rel="import" href="viewer-link.html">
@@ -17,11 +18,12 @@
       }
 
       .wrapper {
-        height:100vh;
+        height: 100vh;
       }
 
       .left {
         min-width: 256px;
+        overflow: auto;
       }
 
       .right {
@@ -32,12 +34,12 @@
 
       iframe {
         position: absolute;
-        top: 45px;
+        top: 65px;
         left: 0;
         right: 0;
         bottom: 0;
         width: 100%;
-        height: calc(100% - 45px);
+        height: calc(100% - 65px);
         background: #fafafa;
       }
 
@@ -71,6 +73,7 @@
             <viewer-link text="Demo" name="demo" link="[[selectedItem.demo]]"></viewer-link>
           </vaadin-tab>
         </vaadin-tabs>
+        <vaadin-progress-bar hidden$="[[!loading]]" indeterminate></vaadin-progress-bar>
         <iframe id="frame" hidden$="[[!selectedItem]]" frameborder="0" height="100%" width="100%"></iframe>
       </div>
 
@@ -93,6 +96,9 @@
             type: Number,
             observer: '_selectedChanged'
           },
+          loading: {
+            type: Boolean
+          },
           selectedItem: {
             type: Object
           },
@@ -108,6 +114,7 @@
 
         Polymer.RenderStatus.afterNextRender(this, () => {
           this.$.ajax.addEventListener('response', this._onResponse.bind(this));
+          this.$.frame.addEventListener('load', this._onFrameLoad.bind(this));
           this.$.ajax.url = 'catalog.json';
           this.addEventListener('link-clicked', this._onLinkClicked.bind(this));
         });
@@ -122,10 +129,12 @@
           docs: `./dist/${el}/#/namespaces/Vaadin/`
         }));
 
-        if (this.$.url.query && this.$.url.hash) {
-          this.selectedTab = this.$.url.hash;
+        const query = this.$.url.query;
+        const hash = this.$.url.hash;
+        if (query && hash) {
+          this.selectedTab = hash;
           setTimeout(() => {
-            const index = elements.indexOf(this.$.url.query);
+            const index = elements.indexOf(query);
             if (index > -1) {
               this.selected = index;
             }
@@ -136,10 +145,15 @@
       }
 
       _onLinkClicked(e) {
+        this.loading = true;
         this.selectedTab = e.detail.name;
         this.$.frame.src = e.detail.url;
         this.$.url.query = this.selectedItem.name;
         this.$.url.hash = this.selectedTab;
+      }
+
+      _onFrameLoad() {
+        this.loading = false;
       }
 
       _selectedChanged(selected) {
