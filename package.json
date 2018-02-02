@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/notwaldorf/elements-viewer.git"
+    "url": "git+https://github.com/web-padawan/elements-viewer.git"
   },
-  "author": "Sergey Kulikov <serguey.kulikov@gmail.com>",
+  "author": "Vaadin Ltd",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/web-padawan/elements-viewer/issues"
   },
-  "homepage": "https://github.com/notwaldorf/elements-viewer#readme",
+  "homepage": "https://github.com/web-padawan/elements-viewer#readme",
   "dependencies": {
     "del": "^2.2.2",
     "gulp": "^4.0.0",

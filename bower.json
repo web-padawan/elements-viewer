@@ -2,7 +2,7 @@
   "name": "elements-viewer",
   "homepage": "https://github.com/web-padawan/elements-viewer",
   "authors": [
-    "Sergey Kulikov <serguey.kulikov@gmail.com>"
+    "Vaadin Ltd"
   ],
   "description": "a simple catalog for demoing elements",
   "main": "index.html",
