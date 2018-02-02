@@ -56,7 +56,7 @@ This program is available under Apache License Version 2.0, available at https:/
 
     <iron-location id="url" path="null"></iron-location>
 
-    <iron-ajax auto="" handle-as="json" id="ajax"></iron-ajax>
+    <iron-ajax id="ajax" auto handle-as="json"></iron-ajax>
 
     <vaadin-horizontal-layout class="wrapper">
 
@@ -64,23 +64,24 @@ This program is available under Apache License Version 2.0, available at https:/
         <vaadin-list-box selected="{{selected}}">
           <dom-repeat items="[[items]]">
             <template>
-              <vaadin-item tabindex="-1">[[item.name]]</vaadin-item>
+              <vaadin-item>[[item.name]]</vaadin-item>
             </template>
           </dom-repeat>
         </vaadin-list-box>
       </div>
 
-      <div class="right">
-        <vaadin-tabs hidden$="[[!selectedItem]]">
-          <vaadin-tab>
-            <viewer-link text="API docs" name="docs" link="[[selectedItem.docs]]"></viewer-link>
-          </vaadin-tab>
-          <vaadin-tab>
-            <viewer-link text="Demo" name="demo" link="[[selectedItem.demo]]"></viewer-link>
-          </vaadin-tab>
+      <div class="right" hidden$="[[!selectedItem]]">
+        <vaadin-tabs selected="{{selectedTab}}">
+          <dom-repeat items="[[tabs]]">
+            <template>
+              <vaadin-tab>
+                <viewer-link text="[[item.text]]" name="[[item.name]]" link="[[_computeLink(selectedItem, item.name)]]"></viewer-link>
+              </vaadin-tab>
+            </template>
+          </dom-repeat>
         </vaadin-tabs>
         <vaadin-progress-bar hidden$="[[!loading]]" indeterminate></vaadin-progress-bar>
-        <iframe id="frame" hidden$="[[!selectedItem]]" frameborder="0" height="100%" width="100%"></iframe>
+        <iframe id="frame" frameborder="0" height="100%" width="100%"></iframe>
       </div>
 
     </vaadin-horizontal-layout>
@@ -109,8 +110,22 @@ This program is available under Apache License Version 2.0, available at https:/
             type: Object
           },
           selectedTab: {
-            type: String,
-            value: 'docs'
+            type: Number
+          },
+          tabs: {
+            type: Array,
+            value: function() {
+              return [
+                {
+                  name: 'docs',
+                  text: 'API docs'
+                },
+                {
+                  name: 'demo',
+                  text: 'Demo'
+                }
+              ];
+            }
           }
         };
       }
@@ -126,6 +141,10 @@ This program is available under Apache License Version 2.0, available at https:/
         });
       }
 
+      _computeLink(item, name) {
+        return item ? item[name] : null;
+      }
+
       _onResponse(e) {
         const elements = Object.keys(e.detail.response.packages);
 
@@ -138,7 +157,7 @@ This program is available under Apache License Version 2.0, available at https:/
         const query = this.$.url.query;
         const hash = this.$.url.hash;
         if (query && hash) {
-          this.selectedTab = hash;
+          this._updateSelectedTab(hash);
           setTimeout(() => {
             const index = elements.indexOf(query);
             if (index > -1) {
@@ -147,15 +166,18 @@ This program is available under Apache License Version 2.0, available at https:/
           }, 1);
         } else {
           this.selected = 0;
+          this._updateSelectedTab('docs');
         }
       }
 
       _onLinkClicked(e) {
+        const name = e.detail.name;
         this.loading = true;
-        this.selectedTab = e.detail.name;
+        this._updateSelectedTab(name);
+        this.selectedTab = this.tabs.map(tab => tab.name).indexOf(name);
         this.$.frame.src = e.detail.url;
         this.$.url.query = this.selectedItem.name;
-        this.$.url.hash = this.selectedTab;
+        this.$.url.hash = name;
       }
 
       _onFrameLoad() {
@@ -168,7 +190,12 @@ This program is available under Apache License Version 2.0, available at https:/
         }
 
         this.set('selectedItem', this.items[selected]);
-        this.shadowRoot.querySelector('[name="' + this.selectedTab + '"]').click();
+
+        this.shadowRoot.querySelector('vaadin-tab[selected] > viewer-link').click();
+      }
+
+      _updateSelectedTab(name) {
+        this.selectedTab = this.tabs.map(tab => tab.name).indexOf(name);
       }
     }
 
