@@ -13,11 +13,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Indie elements catalog">
-    <meta name="description" content="Indie elements catalog">
+    <meta name="generator" content="Elements viewer">
+    <meta name="description" content="Elements viewer">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>Indie catalog</title>
+    <title>Elements Viewer</title>
 
     <link rel="icon" href="icons/favicon.ico">
 
@@ -29,12 +29,12 @@
 
     <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="indie-catalog">
+    <meta name="application-name" content="elements-viewer">
 
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="indie-catalog">
+    <meta name="apple-mobile-web-app-title" content="elements-viewer">
 
     <!-- Homescreen icons -->
     <link rel="apple-touch-icon" href="icons/icon-48x48.png">
@@ -55,45 +55,11 @@
         min-height: 100vh;
         background-color: #eeeeee;
       }
-
-      [unresolved] .header {
-        height: 256px;
-        width: 100%;
-        background: #fbbc05;
-        color: rgba(0,0,0,.7);
-        line-height: 30px;
-        font-size: 20px;
-        letter-spacing: 0.02em;
-      }
-      [unresolved] h1 {
-        height: 64px;
-        padding: 0 16px;
-        font-size: 2.5em;
-        font-weight: normal;
-        margin: 0;
-        line-height: 1.5;
-        padding-left: 28px;
-        padding-top: 128px;
-      }
-      [unresolved] p {
-        padding: 20px;
-      }
-
-      @media (max-width: 767px) {
-        [unresolved] h1 {
-          font-size: 2em;
-          padding-top: 100px;
-        }
-      }
     </style>
   </head>
   <body>
-    <cat-alog unresolved>
-      <div class="header">
-        <h1>Indie elements catalog</h1>
-      </div>
-      <p>🙏 hold on...fetching elements!</p>
-    </cat-alog>
+    <viewer-app></viewer-app>
+
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>
@@ -102,7 +68,7 @@
     <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
     <!-- Load your application shell -->
-    <link rel="import" href="elements/cat-alog.html">
+    <link rel="import" href="src/viewer-app.html">
 
     <!-- Load and register pre-caching Service Worker -->
     <script>

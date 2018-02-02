@@ -1,11 +1,8 @@
 {
   "entrypoint": "index.html",
-  "fragments": [
-    "elements/list-item.html",
-    "elements/cat-alog.html"
-  ],
+  "shell": "src/viewer-app.html",
   "sources": [
-    "elements/**/*",
+    "src/**/*",
     "icons/**/*"
   ],
   "extraDependencies": [

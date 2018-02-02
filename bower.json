@@ -1,20 +1,22 @@
 {
-  "name": "indie-catalog",
-  "homepage": "https://github.com/notwaldorf/indie-catalog",
+  "name": "elements-viewer",
+  "homepage": "https://github.com/web-padawan/elements-viewer",
   "authors": [
-    "Monica Dinculescu <noms@google.com>"
+    "Sergey Kulikov <serguey.kulikov@gmail.com>"
   ],
   "description": "a simple catalog for demoing elements",
   "main": "index.html",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "private": true,
   "dependencies": {
     "polymer": "polymer/polymer#^2.0.0",
-    "app-layout": "PolymerElements/app-layout#^2.0.0",
-    "iron-ajax": "polymerelements/iron-ajax#^2.0.0",
-    "iron-media-query": "PolymerElements/iron-media-query#^2.0.0",
-    "iron-doc-viewer": "PolymerElements/iron-doc-viewer#^3.0.0-rc.2",
-    "iron-location": "polymerelements/iron-location#^2.0.1",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+    "iron-ajax": "PolymerElements/iron-ajax#^2.0.0",
+    "iron-doc-viewer": "PolymerElements/iron-doc-viewer#^3.0.0",
+    "iron-location": "PolymerElements/iron-location#^2.0.1",
+    "vaadin-item": "^2.0.0-alpha5",
+    "vaadin-list-box": "^1.0.0-alpha8",
+    "vaadin-ordered-layout": "^1.0.0-alpha7",
+    "vaadin-tabs": "2.0.0-alpha6",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.1.0"
   }
 }

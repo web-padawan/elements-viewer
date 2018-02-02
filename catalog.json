@@ -1,26 +1,61 @@
 {
   "packages": {
-    "paper-input": {
-      "git": "https://github.com/polymerelements/paper-input",
-      "description": "A Material Design text field"
+    "vaadin-button": {
+      "git": "https://github.com/vaadin/vaadin-button"
     },
-    "paper-button": {
-      "git": "https://github.com/polymerelements/paper-button",
-      "description": "A Material Design button"
+    "vaadin-checkbox": {
+      "git": "https://github.com/vaadin/vaadin-checkbox"
     },
-    "paper-checkbox": {
-      "description": "A Material Design checkbox with remote docs and demo",
-      "demo": "https://raw-dot-custom-elements.appspot.com/PolymerElements/paper-checkbox/v2.0.0/paper-checkbox/demo/index.html",
-      "docs": "https://www.webcomponents.org/element/PolymerElements/paper-checkbox"
+    "vaadin-combo-box": {
+      "git": "https://github.com/vaadin/vaadin-combo-box"
     },
-    "emoji-rain": {
-      "git": "https://github.com/notwaldorf/emoji-rain",
-      "description": "A magical emoji rain element"
+    "vaadin-context-menu": {
+      "git": "https://github.com/vaadin/vaadin-context-menu"
     },
-    "lazy-image": {
-      "git": "https://github.com/notwaldorf/lazy-image",
-      "description": "A custom image element that lets you load resources on demand",
-      "demo": "dist/lazy-image/bower_components/lazy-image/index.html"    
+    "vaadin-date-picker": {
+      "git": "https://github.com/vaadin/vaadin-date-picker"
+    },
+    "vaadin-dialog": {
+      "git": "https://github.com/vaadin/vaadin-dialog"
+    },
+    "vaadin-dropdown-menu": {
+      "git": "https://github.com/vaadin/vaadin-dropdown-menu"
+    },
+    "vaadin-form-layout": {
+      "git": "https://github.com/vaadin/vaadin-form-layout"
+    },
+    "vaadin-grid": {
+      "git": "https://github.com/vaadin/vaadin-grid"
+    },
+    "vaadin-item": {
+      "git": "https://github.com/vaadin/vaadin-item"
+    },
+    "vaadin-list-box": {
+      "git": "https://github.com/vaadin/vaadin-list-box"
+    },
+    "vaadin-notification": {
+      "git": "https://github.com/vaadin/vaadin-notification"
+    },
+    "vaadin-ordered-layout": {
+      "git": "https://github.com/vaadin/vaadin-ordered-layout"
+    },
+    "vaadin-progress-bar": {
+      "git": "https://github.com/vaadin/vaadin-progress-bar"
+    },
+    "vaadin-radio-button": {
+      "git": "https://github.com/vaadin/vaadin-radio-button"
+    },
+    "vaadin-split-layout": {
+      "git": "https://github.com/vaadin/vaadin-split-layout"
+    },
+    "vaadin-tabs": {
+      "git": "https://github.com/vaadin/vaadin-tabs"
+    },
+    "vaadin-text-field": {
+      "git": "https://github.com/vaadin/vaadin-text-field"
+    },
+    "vaadin-upload": {
+      "git": "https://github.com/vaadin/vaadin-upload"
     }
   }
 }

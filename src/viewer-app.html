@@ -1,0 +1,157 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-location/iron-location.html">
+<link rel="import" href="../bower_components/vaadin-lumo-styles/typography.html">
+<link rel="import" href="../bower_components/vaadin-item/vaadin-item.html">
+<link rel="import" href="../bower_components/vaadin-list-box/vaadin-list-box.html">
+<link rel="import" href="../bower_components/vaadin-ordered-layout/vaadin-horizontal-layout.html">
+<link rel="import" href="../bower_components/vaadin-tabs/vaadin-tabs.html">
+
+<link rel="import" href="viewer-link.html">
+
+<dom-module id="viewer-app">
+  <template>
+    <style include="lumo-typography">
+      :host {
+        display: block;
+      }
+
+      .wrapper {
+        height:100vh;
+      }
+
+      .left {
+        min-width: 256px;
+      }
+
+      .right {
+        position: relative;
+        height: 100%;
+        width: 100%;
+      }
+
+      iframe {
+        position: absolute;
+        top: 45px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: calc(100% - 45px);
+        background: #fafafa;
+      }
+
+      vaadin-tab {
+        min-width: 100px;
+      }
+    </style>
+
+    <iron-location id="url" path="null"></iron-location>
+
+    <iron-ajax auto="" handle-as="json" id="ajax"></iron-ajax>
+
+    <vaadin-horizontal-layout class="wrapper">
+
+      <div class="left">
+        <vaadin-list-box selected="{{selected}}">
+          <dom-repeat items="[[items]]">
+            <template>
+              <vaadin-item tabindex="-1">[[item.name]]</vaadin-item>
+            </template>
+          </dom-repeat>
+        </vaadin-list-box>
+      </div>
+
+      <div class="right">
+        <vaadin-tabs hidden$="[[!selectedItem]]">
+          <vaadin-tab>
+            <viewer-link text="API docs" name="docs" link="[[selectedItem.docs]]"></viewer-link>
+          </vaadin-tab>
+          <vaadin-tab>
+            <viewer-link text="Demo" name="demo" link="[[selectedItem.demo]]"></viewer-link>
+          </vaadin-tab>
+        </vaadin-tabs>
+        <iframe id="frame" hidden$="[[!selectedItem]]" frameborder="0" height="100%" width="100%"></iframe>
+      </div>
+
+    </vaadin-horizontal-layout>
+
+  </template>
+  <script>
+    class ViewerApp extends Polymer.Element {
+
+      static get is() {
+        return 'viewer-app';
+      }
+
+      static get properties() {
+        return {
+          items: {
+            type: Array
+          },
+          selected: {
+            type: Number,
+            observer: '_selectedChanged'
+          },
+          selectedItem: {
+            type: Object
+          },
+          selectedTab: {
+            type: String,
+            value: 'docs'
+          }
+        };
+      }
+
+      ready() {
+        super.ready();
+
+        Polymer.RenderStatus.afterNextRender(this, () => {
+          this.$.ajax.addEventListener('response', this._onResponse.bind(this));
+          this.$.ajax.url = 'catalog.json';
+          this.addEventListener('link-clicked', this._onLinkClicked.bind(this));
+        });
+      }
+
+      _onResponse(e) {
+        const elements = Object.keys(e.detail.response.packages);
+
+        this.items = elements.map(el => ({
+          name: el,
+          demo: `./dist/${el}/bower_components/${el}/demo/`,
+          docs: `./dist/${el}/#/namespaces/Vaadin/`
+        }));
+
+        if (this.$.url.query && this.$.url.hash) {
+          this.selectedTab = this.$.url.hash;
+          setTimeout(() => {
+            const index = elements.indexOf(this.$.url.query);
+            if (index > -1) {
+              this.selected = index;
+            }
+          }, 1);
+        } else {
+          this.selected = 0;
+        }
+      }
+
+      _onLinkClicked(e) {
+        this.selectedTab = e.detail.name;
+        this.$.frame.src = e.detail.url;
+        this.$.url.query = this.selectedItem.name;
+        this.$.url.hash = this.selectedTab;
+      }
+
+      _selectedChanged(selected) {
+        if (selected === 'undefined' || selected === -1) {
+          return;
+        }
+
+        this.set('selectedItem', this.items[selected]);
+        this.shadowRoot.querySelector('[name="' + this.selectedTab + '"]').click();
+      }
+    }
+
+    customElements.define(ViewerApp.is, ViewerApp);
+  </script>
+</dom-module>

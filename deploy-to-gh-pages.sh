@@ -6,38 +6,41 @@
 # dependencies to gh-pages.
 
 # Run in a clean directory passing in a GitHub org and repo name
-org="polymerlabs"
-repo="indie-catalog"
+org="web-padawan"
+repo="elements-viewer"
 #branch="master" # default to master when branch isn't specified
 
 # make folder (same as input, no checking!)
 rm -rf $repo
 mkdir $repo
-git clone https://github.com/$org/$repo.git --single-branch
+git clone git@github.com:$org/$repo.git --single-branch
 
 # switch to gh-pages branch
 pushd $repo >/dev/null
 git checkout --orphan gh-pages
 
-# remove the .gitignore since we're going to be pushing deps
-git rm -rf ./.gitignore
-git rm -rf ./node_modules
-git rm -rf ./dist
-git rm -rf ./build
-git rm -rf ./bower_components
+# install dependencies
+npm i
 
 # use bower to install runtime deployment
 bower cache clean # ensure we're getting the latest from the desired branch.
 
-# copy the bower.json from master here
-# git show ${branch}:bower.json > bower.json
+# install the bower deps and run build
+npm start
 
-# install the bower deps and also this repo so we can copy the demo
-bower install && gulp
+# remove the .gitignore since we're going to be pushing deps
+git rm -rf ./.gitignore
+
+# do not push node_modules
+echo "node_modules" > .gitignore
 
 # copy the build output over
 echo "copying things over..."
 cp -R build/es6-bundled/* .
+
+git add bower_components -f
+
+git add dist/**/bower_components -f
 
 # send it all to github
 git add -A .
