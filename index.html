@@ -1,0 +1,116 @@
+<!--
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at http:polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at http:polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at http:polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at http:polymer.github.io/PATENTS.txt
+ */
+ -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Indie elements catalog">
+    <meta name="description" content="Indie elements catalog">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>Indie catalog</title>
+
+    <link rel="icon" href="icons/favicon.ico">
+
+    <!-- See https://goo.gl/OOhYW5 -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- See https://goo.gl/qRE0vM -->
+    <meta name="theme-color" content="#fbbc05">
+
+    <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="indie-catalog">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="indie-catalog">
+
+    <!-- Homescreen icons -->
+    <link rel="apple-touch-icon" href="icons/icon-48x48.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="icons/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192x192.png">
+
+    <!-- Tile icon for Windows 8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#fbbc05">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        line-height: 1.5;
+        min-height: 100vh;
+        background-color: #eeeeee;
+      }
+
+      [unresolved] .header {
+        height: 256px;
+        width: 100%;
+        background: #fbbc05;
+        color: rgba(0,0,0,.7);
+        line-height: 30px;
+        font-size: 20px;
+        letter-spacing: 0.02em;
+      }
+      [unresolved] h1 {
+        height: 64px;
+        padding: 0 16px;
+        font-size: 2.5em;
+        font-weight: normal;
+        margin: 0;
+        line-height: 1.5;
+        padding-left: 28px;
+        padding-top: 128px;
+      }
+      [unresolved] p {
+        padding: 20px;
+      }
+
+      @media (max-width: 767px) {
+        [unresolved] h1 {
+          font-size: 2em;
+          padding-top: 100px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <cat-alog unresolved>
+      <div class="header">
+        <h1>Indie elements catalog</h1>
+      </div>
+      <p>🙏 hold on...fetching elements!</p>
+    </cat-alog>
+    <noscript>
+      Please enable JavaScript to view this website.
+    </noscript>
+
+    <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
+    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
+    <!-- Load your application shell -->
+    <link rel="import" href="elements/cat-alog.html">
+
+    <!-- Load and register pre-caching Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('service-worker.js');
+        });
+      }
+    </script>
+  </body>
+</html>
