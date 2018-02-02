@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.html",
   "scripts": {
+    "lint:js": "eslint src/ --ext .html",
+    "lint:css": "stylelint src/**/*.html",
+    "lint": "npm-run-all -p -c lint:*",
     "debug": "gulp debug",
     "build": "gulp",
     "start": "rm -rf bower_components && bower cache clean && bower install && gulp"
@@ -20,11 +23,16 @@
   "homepage": "https://github.com/web-padawan/elements-viewer#readme",
   "dependencies": {
     "del": "^2.2.2",
+    "eslint": "^4.0.0",
+    "eslint-config-vaadin": "latest",
+    "eslint-plugin-html": "^4.0.0",
     "gulp": "^4.0.0",
     "gulp-cli": "^2.0.1",
     "gulp-bower": "0.0.13",
     "gulp-git": "^2.3.0",
     "gulp-run": "^1.7.1",
-    "run-sequence": "^1.2.2"
+    "npm-run-all": "^4.0.0",
+    "stylelint": "^8.0.0",
+    "stylelint-config-vaadin": "latest"
   }
 }
