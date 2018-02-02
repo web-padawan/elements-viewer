@@ -7,9 +7,10 @@ const fs = require('fs');
 const git = require('gulp-git');
 const exec = require('child_process').exec;
 const data = require('./catalog.json');
+const dist = __dirname + '/dist';
 
 function clean() {
-  return del([__dirname + '/dist']);
+  return del([dist]);
 }
 
 function make() {
@@ -19,7 +20,7 @@ function make() {
     Object.keys(packages).map(repo => new Promise((resolve, reject) => {
 
       // The plan: copy all the elements and their deps into `/dist`.
-      const path = __dirname + '/dist/' + repo;
+      const path = `${dist}/${repo}`;
 
       // Reject if there's nothing to clone.
       if (!packages[repo].git) {
