@@ -19,7 +19,7 @@ function make() {
     Object.keys(packages).map(repo => new Promise((resolve, reject) => {
 
       // The plan: copy all the elements and their deps into `/dist`.
-      let path = __dirname + '/dist/' + repo;
+      const path = __dirname + '/dist/' + repo;
 
       // Reject if there's nothing to clone.
       if (!packages[repo].git) {
@@ -27,7 +27,7 @@ function make() {
       }
 
       // Step 1. Clone the element.
-      git.clone(packages[repo].git, {args: '--depth 1 -- ' + path}, function (err) {
+      git.clone(packages[repo].git, {args: '--depth 1 -- ' + path}, function(err) {
         if (err) {
           reject(err);
         }
@@ -44,7 +44,7 @@ function make() {
           gulp.src(path + '/**').pipe(gulp.dest(`${path}/bower_components/${repo}`));
 
           // Step 5. Write docs.
-          let docsFile =
+          const docsFile =
 `
 <!doctype html>
 <html>
@@ -52,23 +52,29 @@ function make() {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>${repo}</title>
+  <link rel="import" href="../../bower_components/polymer/polymer.html">
   <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
   <link rel="import" href="../../bower_components/iron-doc-viewer/iron-doc-viewer.html">
   <link rel="import" href="../../bower_components/iron-doc-viewer/default-theme.html">
-  <link rel="import" href="../../bower_components/polymer/lib/elements/custom-style.html">
-  <link rel="import" href="../../bower_components/polymer/lib/elements/dom-bind.html">
   <script src="../../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
-  <custom-style>
-    <style is="custom-style" include="iron-doc-default-theme"></style>
-  </custom-style>
 </head>
 <body>
-  <dom-bind>
+  <!-- "custom-style" does not work with "iron-doc-default-theme" in FF -->
+  <dom-module id="x-doc-viewer">
     <template>
+      <style include="iron-doc-default-theme"></style>
       <iron-ajax auto url="./analysis.json" last-response="{{response}}" handle-as="json"></iron-ajax>
       <iron-doc-viewer descriptor="[[response]]" style="max-width: 60em; margin: 0 auto"></iron-doc-viewer>
     </template>
-  </dom-bind>
+    <script>
+      window.addEventListener('WebComponentsReady', function() {
+        Polymer({
+          is: "x-doc-viewer"
+        });
+      });
+    </script>
+  </dom-module>
+  <x-doc-viewer></x-doc-viewer>
 </body>
 </html>
 `;
@@ -87,8 +93,6 @@ function build() {
       if (err) {
         reject(err);
       }
-      console.log(stdout);
-      console.log(stderr);
       resolve();
     });
   });
@@ -100,5 +104,5 @@ function copy() {
 
 gulp.task('default', gulp.series(clean, make, build, copy));
 
-// Note: this assume your local 'dist' folder is ok (you've ran make-dist in the past)
+// Note: this assume your local 'dist' folder is ok (you've ran "make" in the past)
 gulp.task('debug', gulp.series(build, copy));
