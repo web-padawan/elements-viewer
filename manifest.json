@@ -1,10 +1,10 @@
 {
   "name": "elements-viewer",
-  "short_name": "catalog",
+  "short_name": "viewer",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#fbbc05",
-  "background_color": "#fbbc05",
+  "theme_color": "hsl(214, 27%, 26%)",
+  "background_color": "hsl(214, 27%, 26%)",
   "icons": [
     {
       "src": "icons/icon-192x192.png",
