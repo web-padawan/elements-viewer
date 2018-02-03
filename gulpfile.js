@@ -2,6 +2,7 @@
 
 const gulp = require('gulp');
 const bower = require('gulp-bower');
+const replace = require('gulp-replace');
 const del = require('del');
 const fs = require('fs');
 const git = require('gulp-git');
@@ -80,6 +81,12 @@ function make() {
 </html>
 `;
           fs.writeFileSync(path + '/index.html', docsFile);
+
+          // Step 6. Tweak demos: hide nav, we will re-create it.
+          const helpers = 'bower_components/vaadin-demo-helpers';
+          gulp.src(`${path}/${helpers}/vaadin-component-demo.html`)
+            .pipe(replace('id="nav"', 'id="nav" style="display: none"'))
+            .pipe(gulp.dest(`${path}/${helpers}`));
 
           resolve();
         });

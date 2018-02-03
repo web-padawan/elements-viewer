@@ -1,0 +1,121 @@
+<!--
+@license
+Copyright (c) 2018 Vaadin Ltd.
+This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/vaadin-dropdown-menu/vaadin-dropdown-menu.html">
+<link rel="import" href="../bower_components/vaadin-item/vaadin-item.html">
+<link rel="import" href="../bower_components/vaadin-list-box/vaadin-list-box.html">
+
+<dom-module id="viewer-demo-nav">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host([hidden]) {
+        display: none !important;
+      }
+    </style>
+
+    <iron-ajax id="demo" url="dist/[[element]]/demo/demos.json" handle-as="json"></iron-ajax>
+
+    <vaadin-dropdown-menu value="{{selectedDemo}}" hidden$="[[_computeMenuHidden(pages.length)]]">
+      <template>
+        <vaadin-list-box>
+          <dom-repeat items="[[pages]]">
+            <template>
+              <vaadin-item value="[[item.url]]">[[item.name]]</vaadin-item>
+            </template>
+          </dom-repeat>
+        </vaadin-list-box>
+      </template>
+    </vaadin-dropdown-menu>
+
+  </template>
+  <script>
+    class ViewerDemoNav extends Polymer.Element {
+
+      static get is() {
+        return 'viewer-demo-nav';
+      }
+
+      static get properties() {
+        return {
+          demoCache: {
+            type: Object,
+            value: function() {
+              return {};
+            }
+          },
+          element: {
+            type: String,
+            observer: '_elementChanged'
+          },
+          pages: {
+            type: Array
+          },
+          selectedDemo: {
+            type: String,
+            observer: '_selectedDemoChanged'
+          }
+        };
+      }
+
+      ready() {
+        super.ready();
+
+        Polymer.RenderStatus.afterNextRender(this, () => {
+          this.$.demo.addEventListener('response', this._onResponse.bind(this));
+        });
+      }
+
+      _computeMenuHidden(length) {
+        return length === 1;
+      }
+
+      _elementChanged(element) {
+        if (element) {
+          if (this.demoCache && this.demoCache[element]) {
+            this._updateDemo(element);
+          } else {
+            this.$.demo.generateRequest();
+          }
+        }
+      }
+
+      _onResponse(e) {
+        this.demoCache[this.element] = e.detail.response.pages;
+        this._updateDemo(this.element);
+      }
+
+      _selectedDemoChanged(demo, prevDemo) {
+        if (demo && prevDemo) {
+          this.dispatchEvent(new CustomEvent('demo-selected', {
+            detail: {
+              demo: demo
+            },
+            bubbles: true,
+            composed: true
+          }));
+        }
+      }
+
+      _updateDemo(element) {
+        // reset old demo, if any
+        this.selectedDemo = null;
+        const pages = this.demoCache[element];
+        this.pages = pages;
+        Polymer.RenderStatus.afterNextRender(this, () => {
+          this.selectedDemo = pages[0].url;
+        });
+      }
+    }
+
+    customElements.define(ViewerDemoNav.is, ViewerDemoNav);
+  </script>
+</dom-module>

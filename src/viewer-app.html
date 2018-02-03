@@ -7,6 +7,7 @@ This program is available under Apache License Version 2.0, available at https:/
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/iron-location/iron-location.html">
+<link rel="import" href="../bower_components/vaadin-lumo-styles/color.html">
 <link rel="import" href="../bower_components/vaadin-lumo-styles/typography.html">
 <link rel="import" href="../bower_components/vaadin-item/vaadin-item.html">
 <link rel="import" href="../bower_components/vaadin-list-box/vaadin-list-box.html">
@@ -15,16 +16,18 @@ This program is available under Apache License Version 2.0, available at https:/
 <link rel="import" href="../bower_components/vaadin-tabs/vaadin-tabs.html">
 
 <link rel="import" href="viewer-link.html">
+<link rel="import" href="viewer-demo-nav.html">
 
 <dom-module id="viewer-app">
   <template>
-    <style include="lumo-typography">
+    <style include="lumo-typography lumo-color">
       :host {
         display: block;
       }
 
       .wrapper {
         height: 100vh;
+        background: var(--lumo-shade-5pct);
       }
 
       .left {
@@ -49,12 +52,16 @@ This program is available under Apache License Version 2.0, available at https:/
         background: #fafafa;
       }
 
+      vaadin-tabs {
+        margin-top: var(--lumo-space-s);
+      }
+
       vaadin-tab {
         min-width: 100px;
       }
     </style>
 
-    <iron-location id="url" path="null"></iron-location>
+    <iron-location id="url" path="null" hash="{{hash}}"></iron-location>
 
     <iron-ajax id="ajax" auto handle-as="json"></iron-ajax>
 
@@ -71,7 +78,7 @@ This program is available under Apache License Version 2.0, available at https:/
       </div>
 
       <div class="right" hidden$="[[!selectedItem]]">
-        <vaadin-tabs selected="{{selectedTab}}">
+        <vaadin-tabs selected="{{selectedTab}}" theme="minimal">
           <dom-repeat items="[[tabs]]">
             <template>
               <vaadin-tab>
@@ -79,6 +86,7 @@ This program is available under Apache License Version 2.0, available at https:/
               </vaadin-tab>
             </template>
           </dom-repeat>
+          <viewer-demo-nav element="[[selectedItem.name]]" hidden$="[[_computeNavHidden(hash, loaded)]]"></viewer-demo-nav>
         </vaadin-tabs>
         <vaadin-progress-bar hidden$="[[!loading]]" indeterminate></vaadin-progress-bar>
         <iframe id="frame" frameborder="0" height="100%" width="100%"></iframe>
@@ -96,12 +104,18 @@ This program is available under Apache License Version 2.0, available at https:/
 
       static get properties() {
         return {
+          hash: {
+            type: String
+          },
           items: {
             type: Array
           },
           selected: {
             type: Number,
             observer: '_selectedChanged'
+          },
+          loaded: {
+            type: Boolean
           },
           loading: {
             type: Boolean
@@ -138,11 +152,16 @@ This program is available under Apache License Version 2.0, available at https:/
           this.$.frame.addEventListener('load', this._onFrameLoad.bind(this));
           this.$.ajax.url = 'catalog.json';
           this.addEventListener('link-clicked', this._onLinkClicked.bind(this));
+          this.addEventListener('demo-selected', this._onDemoSelected.bind(this));
         });
       }
 
       _computeLink(item, name) {
         return item ? item[name] : null;
+      }
+
+      _computeNavHidden(hash, loaded) {
+        return !loaded || hash !== 'demo';
       }
 
       _onResponse(e) {
@@ -170,8 +189,20 @@ This program is available under Apache License Version 2.0, available at https:/
         }
       }
 
+      _onDemoSelected(e) {
+        // async to prevent freeze on dropdown close
+        setTimeout(() => {
+          const doc = this.$.frame.contentDocument || this.$.frame.contentWindow.document;
+          const demo = doc.querySelector('vaadin-component-demo');
+          if (demo) {
+            demo.selectedPage = e.detail.demo;
+          }
+        });
+      }
+
       _onLinkClicked(e) {
         const name = e.detail.name;
+        this.loaded = false;
         this.loading = true;
         this._updateSelectedTab(name);
         this.selectedTab = this.tabs.map(tab => tab.name).indexOf(name);
@@ -182,6 +213,7 @@ This program is available under Apache License Version 2.0, available at https:/
 
       _onFrameLoad() {
         this.loading = false;
+        this.loaded = true;
       }
 
       _selectedChanged(selected) {
