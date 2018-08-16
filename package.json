@@ -32,6 +32,7 @@
     "gulp-git": "^2.3.0",
     "gulp-replace": "^0.6.1",
     "npm-run-all": "^4.0.0",
+    "polymer-analyzer": "3.0.2",
     "stylelint": "^8.0.0",
     "stylelint-config-vaadin": "latest"
   }

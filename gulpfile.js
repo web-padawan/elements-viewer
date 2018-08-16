@@ -10,6 +10,11 @@ const exec = require('child_process').exec;
 const data = require('./catalog.json');
 const dist = __dirname + '/dist';
 
+// Analyzer stuff.
+const {Analyzer, generateAnalysis} = require('polymer-analyzer');
+const FsUrlLoader = require('polymer-analyzer/lib/url-loader/fs-url-loader').FsUrlLoader;
+const PackageUrlResolver = require('polymer-analyzer/lib/url-loader/package-url-resolver').PackageUrlResolver;
+
 function clean() {
   return del([dist]);
 }
@@ -39,14 +44,29 @@ function make() {
         del([path + '/.git']);
         del([path + '/.gitignore']);
 
-        // Step 3. bower install the element's dependencies.
+        // Step 3. Read the main field from bower.
+        const bowerjson = JSON.parse(fs.readFileSync(path + '/bower.json'));
+        const inputs = [].concat(bowerjson.main);
+
+        // Step 4. bower install the element's dependencies.
         console.log('Running bower install in ' + path);
         bower({cwd: path, verbosity: 1}).on('end', function() {
-          // Step 4. Copy the element in its bower_components, so that the demo works.
+          // Step 5. Copy the element in its bower_components, so that the demo works.
           gulp.src(path + '/**').pipe(gulp.dest(`${path}/bower_components/${repo}`));
 
-          // Step 5. Write docs.
-          const docsFile =
+          // Step 6. Run analyzer.
+          const analyzerRoot = path + '/';
+          const analyzer = new Analyzer({
+            urlLoader: new FsUrlLoader(path),
+            urlResolver: new PackageUrlResolver(),
+          });
+
+          analyzer.analyze(inputs).then(function(analysis) {
+            var blob = JSON.stringify(generateAnalysis(analysis, analyzerRoot));
+            fs.writeFileSync(path + '/analysis.json', blob);
+
+            // Step 6. Write docs.
+            const docsFile =
 `
 <!doctype html>
 <html>
@@ -80,15 +100,16 @@ function make() {
 </body>
 </html>
 `;
-          fs.writeFileSync(path + '/index.html', docsFile);
+            fs.writeFileSync(path + '/index.html', docsFile);
 
-          // Step 6. Tweak demos: hide nav, we will re-create it.
-          const helpers = 'bower_components/vaadin-demo-helpers';
-          gulp.src(`${path}/${helpers}/vaadin-component-demo.html`)
-            .pipe(replace('id="nav"', 'id="nav" style="display: none"'))
-            .pipe(gulp.dest(`${path}/${helpers}`));
+            // Step 7. Tweak demos: hide nav, we will re-create it.
+            const helpers = 'bower_components/vaadin-demo-helpers';
+            gulp.src(`${path}/${helpers}/vaadin-component-demo.html`)
+              .pipe(replace('id="nav"', 'id="nav" style="display: none"'))
+              .pipe(gulp.dest(`${path}/${helpers}`));
 
-          resolve();
+            resolve();
+          });
         });
       });
     }))
