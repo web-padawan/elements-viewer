@@ -54,6 +54,9 @@
     "vaadin-text-field": {
       "git": "https://github.com/vaadin/vaadin-text-field"
     },
+    "vaadin-time-picker": {
+      "git": "https://github.com/vaadin/vaadin-time-picker"
+    },
     "vaadin-upload": {
       "git": "https://github.com/vaadin/vaadin-upload"
     }
