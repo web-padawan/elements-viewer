@@ -1,5 +1,14 @@
 {
   "packages": {
+    "vaadin-accordion": {
+      "git": "https://github.com/vaadin/vaadin-accordion"
+    },
+    "vaadin-app-layout": {
+      "git": "https://github.com/vaadin/vaadin-app-layout"
+    },
+    "vaadin-board": {
+      "git": "https://github.com/vaadin/vaadin-board"
+    },
     "vaadin-button": {
       "git": "https://github.com/vaadin/vaadin-button"
     },
@@ -9,17 +18,29 @@
     "vaadin-combo-box": {
       "git": "https://github.com/vaadin/vaadin-combo-box"
     },
+    "vaadin-confirm-dialog": {
+      "git": "https://github.com/vaadin/vaadin-confirm-dialog"
+    },
     "vaadin-context-menu": {
       "git": "https://github.com/vaadin/vaadin-context-menu"
+    },
+    "vaadin-cookie-consent": {
+      "git": "https://github.com/vaadin/vaadin-cookie-consent"
+    },
+    "vaadin-crud": {
+      "git": "https://github.com/vaadin/vaadin-crud"
+    },
+    "vaadin-custom-field": {
+      "git": "https://github.com/vaadin/vaadin-custom-field"
     },
     "vaadin-date-picker": {
       "git": "https://github.com/vaadin/vaadin-date-picker"
     },
+    "vaadin-details": {
+      "git": "https://github.com/vaadin/vaadin-details"
+    },
     "vaadin-dialog": {
       "git": "https://github.com/vaadin/vaadin-dialog"
-    },
-    "vaadin-dropdown-menu": {
-      "git": "https://github.com/vaadin/vaadin-dropdown-menu"
     },
     "vaadin-form-layout": {
       "git": "https://github.com/vaadin/vaadin-form-layout"
@@ -27,11 +48,20 @@
     "vaadin-grid": {
       "git": "https://github.com/vaadin/vaadin-grid"
     },
+    "vaadin-grid-pro": {
+      "git": "https://github.com/vaadin/vaadin-grid-pro"
+    },
     "vaadin-item": {
       "git": "https://github.com/vaadin/vaadin-item"
     },
     "vaadin-list-box": {
       "git": "https://github.com/vaadin/vaadin-list-box"
+    },
+    "vaadin-login": {
+      "git": "https://github.com/vaadin/vaadin-login"
+    },
+    "vaadin-menu-bar": {
+      "git": "https://github.com/vaadin/vaadin-menu-bar"
     },
     "vaadin-notification": {
       "git": "https://github.com/vaadin/vaadin-notification"
@@ -44,6 +74,12 @@
     },
     "vaadin-radio-button": {
       "git": "https://github.com/vaadin/vaadin-radio-button"
+    },
+    "vaadin-rich-text-editor": {
+      "git": "https://github.com/vaadin/vaadin-rich-text-editor"
+    },
+    "vaadin-select": {
+      "git": "https://github.com/vaadin/vaadin-select"
     },
     "vaadin-split-layout": {
       "git": "https://github.com/vaadin/vaadin-split-layout"

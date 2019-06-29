@@ -9,13 +9,11 @@ This program is available under Apache License Version 2.0, available at https:/
 <link rel="import" href="../bower_components/iron-location/iron-location.html">
 <link rel="import" href="../bower_components/vaadin-lumo-styles/color.html">
 <link rel="import" href="../bower_components/vaadin-lumo-styles/typography.html">
-<link rel="import" href="../bower_components/vaadin-item/vaadin-item.html">
-<link rel="import" href="../bower_components/vaadin-list-box/vaadin-list-box.html">
-<link rel="import" href="../bower_components/vaadin-ordered-layout/vaadin-horizontal-layout.html">
+<link rel="import" href="../bower_components/vaadin-app-layout/vaadin-app-layout.html">
+<link rel="import" href="../bower_components/vaadin-app-layout/vaadin-drawer-toggle.html">
 <link rel="import" href="../bower_components/vaadin-progress-bar/vaadin-progress-bar.html">
 <link rel="import" href="../bower_components/vaadin-tabs/vaadin-tabs.html">
 
-<link rel="import" href="viewer-link.html">
 <link rel="import" href="viewer-demo-nav.html">
 
 <dom-module id="viewer-app">
@@ -30,12 +28,15 @@ This program is available under Apache License Version 2.0, available at https:/
         background: var(--lumo-shade-5pct);
       }
 
-      .left {
-        min-width: 256px;
-        overflow: auto;
+      .elements {
+        height: 100vh;
       }
 
-      .right {
+      .elements vaadin-tab:last-of-type {
+        margin-bottom: 10px;
+      }
+
+      .content {
         position: relative;
         height: 100%;
         width: 100%;
@@ -43,21 +44,17 @@ This program is available under Apache License Version 2.0, available at https:/
 
       iframe {
         position: absolute;
-        top: 65px;
+        top: 4px;
         left: 0;
         right: 0;
         bottom: 0;
         width: 100%;
-        height: calc(100% - 65px);
+        height: calc(100% - 4px);
         background: #fafafa;
       }
 
-      vaadin-tabs {
-        margin-top: var(--lumo-space-s);
-      }
-
-      vaadin-tab {
-        min-width: 100px;
+      .nav-item {
+        min-width: 90px;
       }
     </style>
 
@@ -65,34 +62,34 @@ This program is available under Apache License Version 2.0, available at https:/
 
     <iron-ajax id="ajax" auto handle-as="json"></iron-ajax>
 
-    <vaadin-horizontal-layout class="wrapper">
+    <vaadin-app-layout class="wrapper" primary-section="drawer">
 
-      <div class="left">
-        <vaadin-list-box selected="{{selected}}">
-          <dom-repeat items="[[items]]">
-            <template>
-              <vaadin-item>[[item.name]]</vaadin-item>
-            </template>
-          </dom-repeat>
-        </vaadin-list-box>
-      </div>
+      <vaadin-tabs class="elements" slot="drawer" selected="{{selected}}" orientation="vertical">
+        <dom-repeat items="[[items]]">
+          <template>
+            <vaadin-tab>[[item.name]]</vaadin-tab>
+          </template>
+        </dom-repeat>
+      </vaadin-tabs>
 
-      <div class="right" hidden$="[[!selectedItem]]">
-        <vaadin-tabs selected="{{selectedTab}}" theme="minimal">
-          <dom-repeat items="[[tabs]]">
-            <template>
-              <vaadin-tab>
-                <viewer-link text="[[item.text]]" name="[[item.name]]" link="[[_computeLink(selectedItem, item.name)]]"></viewer-link>
-              </vaadin-tab>
-            </template>
-          </dom-repeat>
-          <viewer-demo-nav element="[[selectedItem.name]]" hidden$="[[_computeNavHidden(hash, loaded)]]"></viewer-demo-nav>
-        </vaadin-tabs>
+      <vaadin-drawer-toggle slot="navbar"></vaadin-drawer-toggle>
+      <vaadin-tabs slot="navbar" hidden$="[[!selectedItem]]" selected="{{selectedTab}}" theme="minimal">
+        <dom-repeat items="[[tabs]]">
+          <template>
+            <vaadin-tab class="nav-item">
+              <a href$="[[_computeLink(selectedItem, item.name)]]" name$="[[item.name]]" target="_blank" rel="noopener" on-click="_onLinkClicked">[[item.text]]</a>
+            </vaadin-tab>
+          </template>
+        </dom-repeat>
+        <viewer-demo-nav element="[[selectedItem.name]]" hidden$="[[_computeNavHidden(hash, loaded)]]"></viewer-demo-nav>
+      </vaadin-tabs>
+
+      <div class="content">
         <vaadin-progress-bar hidden$="[[!loading]]" indeterminate></vaadin-progress-bar>
         <iframe id="frame" frameborder="0" height="100%" width="100%"></iframe>
       </div>
 
-    </vaadin-horizontal-layout>
+    </vaadin-app-layout>
 
   </template>
   <script>
@@ -151,7 +148,6 @@ This program is available under Apache License Version 2.0, available at https:/
           this.$.ajax.addEventListener('response', this._onResponse.bind(this));
           this.$.frame.addEventListener('load', this._onFrameLoad.bind(this));
           this.$.ajax.url = 'catalog.json';
-          this.addEventListener('link-clicked', this._onLinkClicked.bind(this));
           this.addEventListener('demo-selected', this._onDemoSelected.bind(this));
         });
       }
@@ -173,8 +169,7 @@ This program is available under Apache License Version 2.0, available at https:/
           docs: `./dist/${el}/#/namespaces/Vaadin/`
         }));
 
-        const query = this.$.url.query;
-        const hash = this.$.url.hash;
+        const {query, hash} = this.$.url;
         if (query && hash) {
           this._updateSelectedTab(hash);
           setTimeout(() => {
@@ -201,12 +196,13 @@ This program is available under Apache License Version 2.0, available at https:/
       }
 
       _onLinkClicked(e) {
-        const name = e.detail.name;
+        e.preventDefault();
+        const name = e.model.item.name;
         this.loaded = false;
         this.loading = true;
         this._updateSelectedTab(name);
         this.selectedTab = this.tabs.map(tab => tab.name).indexOf(name);
-        this.$.frame.src = e.detail.url;
+        this.$.frame.src = this._computeLink(this.selectedItem, name);
         this.$.url.query = this.selectedItem.name;
         this.$.url.hash = name;
       }
@@ -217,13 +213,16 @@ This program is available under Apache License Version 2.0, available at https:/
       }
 
       _selectedChanged(selected) {
-        if (selected === 'undefined' || selected === -1) {
+        if (this.items === undefined || selected === 'undefined' || selected === -1) {
           return;
         }
 
-        this.set('selectedItem', this.items[selected]);
+        const item = this.items[selected];
+        if (item) {
+          this.set('selectedItem', item);
 
-        this.shadowRoot.querySelector('vaadin-tab[selected] > viewer-link').click();
+          this.shadowRoot.querySelector('.nav-item[selected] > a').click();
+        }
       }
 
       _updateSelectedTab(name) {

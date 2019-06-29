@@ -6,7 +6,7 @@ This program is available under Apache License Version 2.0, available at https:/
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../bower_components/vaadin-dropdown-menu/vaadin-dropdown-menu.html">
+<link rel="import" href="../bower_components/vaadin-select/vaadin-select.html">
 <link rel="import" href="../bower_components/vaadin-item/vaadin-item.html">
 <link rel="import" href="../bower_components/vaadin-list-box/vaadin-list-box.html">
 
@@ -24,7 +24,7 @@ This program is available under Apache License Version 2.0, available at https:/
 
     <iron-ajax id="demo" url="dist/[[element]]/demo/demos.json" handle-as="json"></iron-ajax>
 
-    <vaadin-dropdown-menu value="{{selectedDemo}}" hidden$="[[_computeMenuHidden(pages.length)]]">
+    <vaadin-select value="{{selectedDemo}}" hidden$="[[_computeMenuHidden(pages.length)]]">
       <template>
         <vaadin-list-box>
           <dom-repeat items="[[pages]]">
@@ -34,7 +34,7 @@ This program is available under Apache License Version 2.0, available at https:/
           </dom-repeat>
         </vaadin-list-box>
       </template>
-    </vaadin-dropdown-menu>
+    </vaadin-select>
 
   </template>
   <script>

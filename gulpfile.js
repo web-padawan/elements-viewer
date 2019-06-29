@@ -11,9 +11,7 @@ const data = require('./catalog.json');
 const dist = __dirname + '/dist';
 
 // Analyzer stuff.
-const {Analyzer, generateAnalysis} = require('polymer-analyzer');
-const FsUrlLoader = require('polymer-analyzer/lib/url-loader/fs-url-loader').FsUrlLoader;
-const PackageUrlResolver = require('polymer-analyzer/lib/url-loader/package-url-resolver').PackageUrlResolver;
+const {Analyzer, FsUrlLoader, PackageUrlResolver, generateAnalysis} = require('polymer-analyzer');
 
 function clean() {
   return del([dist]);
@@ -46,23 +44,22 @@ function make() {
 
         // Step 3. Read the main field from bower.
         const bowerjson = JSON.parse(fs.readFileSync(path + '/bower.json'));
-        const inputs = [].concat(bowerjson.main);
+        const inputs = bowerjson.main.filter(name => !name.startsWith('theme'));
 
         // Step 4. bower install the element's dependencies.
-        console.log('Running bower install in ' + path);
         bower({cwd: path, verbosity: 1}).on('end', function() {
+
           // Step 5. Copy the element in its bower_components, so that the demo works.
           gulp.src(path + '/**').pipe(gulp.dest(`${path}/bower_components/${repo}`));
 
           // Step 6. Run analyzer.
-          const analyzerRoot = path + '/';
           const analyzer = new Analyzer({
             urlLoader: new FsUrlLoader(path),
-            urlResolver: new PackageUrlResolver(),
+            urlResolver: new PackageUrlResolver({packageDir: path}),
           });
 
           analyzer.analyze(inputs).then(function(analysis) {
-            var blob = JSON.stringify(generateAnalysis(analysis, analyzerRoot));
+            var blob = JSON.stringify(generateAnalysis(analysis, analyzer.urlResolver));
             fs.writeFileSync(path + '/analysis.json', blob);
 
             // Step 6. Write docs.
@@ -74,11 +71,11 @@ function make() {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>${repo}</title>
-  <link rel="import" href="../../bower_components/polymer/polymer.html">
-  <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-  <link rel="import" href="../../bower_components/iron-doc-viewer/iron-doc-viewer.html">
-  <link rel="import" href="../../bower_components/iron-doc-viewer/default-theme.html">
-  <script src="../../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+  <link rel="import" href="./bower_components/polymer/polymer.html">
+  <link rel="import" href="./bower_components/iron-ajax/iron-ajax.html">
+  <link rel="import" href="./bower_components/iron-doc-viewer/iron-doc-viewer.html">
+  <link rel="import" href="./bower_components/iron-doc-viewer/default-theme.html">
+  <script src="./bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 </head>
 <body>
   <!-- "custom-style" does not work with "iron-doc-default-theme" in FF -->
@@ -105,7 +102,7 @@ function make() {
             // Step 7. Tweak demos: hide nav, we will re-create it.
             const helpers = 'bower_components/vaadin-demo-helpers';
             gulp.src(`${path}/${helpers}/vaadin-component-demo.html`)
-              .pipe(replace('id="nav"', 'id="nav" style="display: none"'))
+              .pipe(replace('<vaadin-tabs', '<vaadin-tabs style="display: none"'))
               .pipe(gulp.dest(`${path}/${helpers}`));
 
             resolve();
