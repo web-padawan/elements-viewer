@@ -56,6 +56,10 @@ This program is available under Apache License Version 2.0, available at https:/
       .nav-item {
         min-width: 90px;
       }
+
+      .nav-item a {
+        justify-content: center;
+      }
     </style>
 
     <iron-location id="url" path="null" hash="{{hash}}"></iron-location>
@@ -81,7 +85,7 @@ This program is available under Apache License Version 2.0, available at https:/
             </vaadin-tab>
           </template>
         </dom-repeat>
-        <viewer-demo-nav element="[[selectedItem.name]]" hidden$="[[_computeNavHidden(hash, loaded)]]"></viewer-demo-nav>
+        <viewer-demo-nav element="[[selectedItem.name]]" hidden$="[[_computeNavHidden(hash, loaded)]]" on-demo-selected="_onDemoSelected"></viewer-demo-nav>
       </vaadin-tabs>
 
       <div class="content">
@@ -148,7 +152,6 @@ This program is available under Apache License Version 2.0, available at https:/
           this.$.ajax.addEventListener('response', this._onResponse.bind(this));
           this.$.frame.addEventListener('load', this._onFrameLoad.bind(this));
           this.$.ajax.url = 'catalog.json';
-          this.addEventListener('demo-selected', this._onDemoSelected.bind(this));
         });
       }
 
@@ -185,26 +188,28 @@ This program is available under Apache License Version 2.0, available at https:/
       }
 
       _onDemoSelected(e) {
+        const link = e.detail.demo;
         // async to prevent freeze on dropdown close
         setTimeout(() => {
           const doc = this.$.frame.contentDocument || this.$.frame.contentWindow.document;
           const demo = doc.querySelector('vaadin-component-demo');
           if (demo) {
-            demo.selectedPage = e.detail.demo;
+            demo.set('routeData.page', link);
           }
         });
       }
 
       _onLinkClicked(e) {
         e.preventDefault();
-        const name = e.model.item.name;
+        const docsOrDemo = e.model.item.name;
         this.loaded = false;
         this.loading = true;
-        this._updateSelectedTab(name);
-        this.selectedTab = this.tabs.map(tab => tab.name).indexOf(name);
-        this.$.frame.src = this._computeLink(this.selectedItem, name);
-        this.$.url.query = this.selectedItem.name;
-        this.$.url.hash = name;
+        this._updateSelectedTab(docsOrDemo);
+        this.selectedTab = this.tabs.map(tab => tab.name).indexOf(docsOrDemo);
+        const element = this.selectedItem || this.items[0];
+        this.$.frame.src = this._computeLink(element, docsOrDemo);
+        this.$.url.query = element.name;
+        this.$.url.hash = docsOrDemo;
       }
 
       _onFrameLoad() {
