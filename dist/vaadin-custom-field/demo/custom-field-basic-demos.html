@@ -1,0 +1,69 @@
+<dom-module id="custom-field-basic-demos">
+  <template>
+    <style include="vaadin-component-demo-shared-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h3>Combine Multiple Fields</h3>
+    <vaadin-demo-snippet id="custom-field-basic-demos-composite-example" when-defined="vaadin-custom-field">
+      <template preserve-content>
+        <vaadin-custom-field label="Phone number">
+          <vaadin-select style="width: 100px;">
+            <template>
+              <vaadin-list-box>
+                <vaadin-item>+358</vaadin-item>
+                <vaadin-item>+46</vaadin-item>
+                <vaadin-item>+34</vaadin-item>
+              </vaadin-list-box>
+            </template>
+          </vaadin-select>
+          <vaadin-number-field></vaadin-number-field>
+          <vaadin-number-field></vaadin-number-field> 
+        </vaadin-custom-field>
+        <br>
+        <vaadin-custom-field label="Appointment time">
+          <vaadin-date-picker></vaadin-date-picker>
+          <vaadin-time-picker></vaadin-time-picker>
+        </vaadin-custom-field>
+        <script>
+          window.addDemoReadyListener('#custom-field-basic-demos-composite-example', function(document) {
+            const phoneNumber = document.querySelectorAll('vaadin-custom-field')[0];
+            const dateTime = document.querySelectorAll('vaadin-custom-field')[1];
+            const logChanges = function(e) {
+              console.info('change event with stringified value: ' + JSON.stringify(e.detail.value));
+              console.info('Change event', e);
+            };
+
+            phoneNumber.addEventListener('change', logChanges);
+            dateTime.addEventListener('change', logChanges);
+          });
+        </script>
+      </template>
+    </vaadin-demo-snippet>
+
+    <h3>Native Inputs</h3>
+    <vaadin-demo-snippet id="custom-field-basic-demos-inputs-example" when-defined="vaadin-custom-field">
+      <template preserve-content>
+        <vaadin-custom-field label="Price" required error-message="Please fill in all fields">
+          <input type="number">
+          <select>
+            <option>Euro</option>
+            <option>Dollars</option>
+            <option>Pounds</option>
+          </select>
+        </vaadin-custom-field>
+      </template>
+    </vaadin-demo-snippet>
+
+  </template>
+  <script>
+    class CustomFieldBasicDemos extends DemoReadyEventEmitter(CustomFieldDemo(Polymer.Element)) {
+      static get is() {
+        return 'custom-field-basic-demos';
+      }
+    }
+    customElements.define(CustomFieldBasicDemos.is, CustomFieldBasicDemos);
+  </script>
+</dom-module>

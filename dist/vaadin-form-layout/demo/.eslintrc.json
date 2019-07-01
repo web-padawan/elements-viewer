@@ -1,0 +1,8 @@
+{
+  "rules": {
+  },
+  "globals": {
+    "FormLayoutDemo": false,
+    "DemoReadyEventEmitter": false
+  }
+}

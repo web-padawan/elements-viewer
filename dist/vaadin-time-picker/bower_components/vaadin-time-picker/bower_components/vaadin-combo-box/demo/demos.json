@@ -1,0 +1,48 @@
+{
+  "name": "Vaadin Combo Box",
+  "pages": [
+  {
+    "name": "Basics",
+    "url": "combo-box-basic-demos",
+    "src": "combo-box-basic-demos.html",
+    "meta": {
+      "title": "Vaadin Combo Box Basic Examples",
+      "description": "",
+      "image": ""
+     }
+  }
+  ,
+  {
+    "name": "Validation",
+    "url": "combo-box-validation-demos",
+    "src": "combo-box-validation-demos.html",
+    "meta": {
+      "title": "Vaadin Combo Validation Examples",
+      "description": "",
+      "image": ""
+     }
+  }
+  ,
+  {
+    "name": "Filtering",
+    "url": "combo-box-filtering-demos",
+    "src": "combo-box-filtering-demos.html",
+    "meta": {
+      "title": "Vaadin Combo Box Filtering Examples",
+      "description": "",
+      "image": ""
+     }
+  }
+  ,
+  {
+    "name": "Styling",
+    "url": "combo-box-styling-demos",
+    "src": "combo-box-styling-demos.html",
+    "meta": {
+      "title": "Vaadin Combo Box Styling Examples",
+      "description": "",
+      "image": ""
+     }
+  }
+  ]
+}

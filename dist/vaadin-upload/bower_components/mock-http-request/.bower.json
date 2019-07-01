@@ -1,0 +1,13 @@
+{
+  "name": "mock-http-request",
+  "homepage": "https://github.com/abuinitski/MockHttpRequest",
+  "_release": "e899e10ff1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "npm_fix",
+    "commit": "e899e10ff1ecc01184b1e2bb6d2fa5979fb3c95f"
+  },
+  "_source": "https://github.com/abuinitski/MockHttpRequest.git",
+  "_target": "npm_fix",
+  "_originalSource": "abuinitski/MockHttpRequest"
+}

@@ -1,0 +1,137 @@
+<dom-module id="combo-box-basic-demos">
+  <template>
+    <style include="vaadin-component-demo-shared-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h3>Combo Box</h3>
+
+    <vaadin-demo-snippet id="combo-box-basic-combo-box" when-defined="vaadin-combo-box">
+      <template preserve-content>
+        <vaadin-combo-box label="Element"></vaadin-combo-box>
+        <script>
+          window.addDemoReadyListener('#combo-box-basic-combo-box', function(document) {
+            document.querySelector('vaadin-combo-box').items = ['Hydrogen', 'Helium', 'Lithium'];
+          });
+        </script>
+      </template>
+    </vaadin-demo-snippet>
+
+
+    <h3>Configuring the Combo Box</h3>
+
+    <vaadin-demo-snippet id="combo-box-basic-demos-configuring-the-combo-box" when-defined="vaadin-combo-box">
+      <template preserve-content>
+        <vaadin-combo-box label="Element"></vaadin-combo-box>
+        <vaadin-combo-box label="Disabled" disabled></vaadin-combo-box>
+        <vaadin-combo-box label="Read-only" readonly></vaadin-combo-box>
+        <script>
+          window.addDemoReadyListener('#combo-box-basic-demos-configuring-the-combo-box', function(document) {
+            const combos = document.querySelectorAll('vaadin-combo-box');
+            combos.forEach(function(comboBox) {
+              // NOTE: elements is an array of the form {'Carbon', ...}
+              comboBox.items = elements;
+              comboBox.value = 'Carbon';
+            });
+          });
+        </script>
+      </template>
+    </vaadin-demo-snippet>
+
+    <h3>Clear Button</h3>
+
+    <p>Use the clear-button-visible attribute to display the clear button of an individual combobox.</p>
+
+    <vaadin-demo-snippet id="combo-box-basic-demos-clear-button" when-defined="vaadin-combo-box">
+      <template preserve-content>
+        <vaadin-combo-box label="Element" clear-button-visible></vaadin-combo-box>
+        <script>
+          window.addDemoReadyListener('#combo-box-basic-demos-clear-button', function(document) {
+            const comboBox = document.querySelector('vaadin-combo-box');
+            comboBox.items = ['Hydrogen', 'Helium', 'Lithium'];
+            comboBox.value = 'Hydrogen';
+          });
+        </script>
+      </template>
+    </vaadin-demo-snippet>
+
+
+    <h3>Allow Custom Values</h3>
+    <p>Allow the user to set any value for the field in addition to selecting a value from the dropdown menu.</p>
+    <vaadin-demo-snippet id="combo-box-basic-demos-allow-custom-values" when-defined="vaadin-combo-box">
+      <template preserve-content>
+        <vaadin-combo-box label="Element" allow-custom-value></vaadin-combo-box>
+        <p>Selected value: <span></span></p>
+
+        <script>
+          window.addDemoReadyListener('#combo-box-basic-demos-allow-custom-values', function(document) {
+            const comboBox = document.querySelector('vaadin-combo-box');
+            const span = document.querySelector('span');
+
+            comboBox.addEventListener('value-changed', function() {
+              span.textContent = comboBox.value;
+            });
+            comboBox.addEventListener('custom-value-set', function(e) {
+              // Prevents setting the value property automatically.
+              e.preventDefault();
+
+              comboBox.value = e.detail;
+              span.textContent = 'custom value "' + e.detail + '" set!';
+            });
+
+            comboBox.items = elements;
+            comboBox.value = 'Carbon';
+          });
+        </script>
+
+      </template>
+    </vaadin-demo-snippet>
+
+
+    <h3>Lazy Loading</h3>
+    <p>
+      The <code>dataProvider</code> property can be assigned a function to provide
+      data from a remote source.
+    </p>
+    <p>
+      <b>Note:</b> the total number of items must be provided as the second argument of the data provider <code>callback</code>.
+    </p>
+    <vaadin-demo-snippet id="combo-box-basic-demos-lazy-loading" when-defined="vaadin-combo-box">
+      <template preserve-content>
+        <vaadin-combo-box label="Country"></vaadin-combo-box>
+        <script>
+          window.addDemoReadyListener('#combo-box-basic-demos-lazy-loading', function(document) {
+            const combo = document.querySelector('vaadin-combo-box');
+
+            combo.dataProvider = function(params, callback) {
+              var xhr = new XMLHttpRequest();
+              xhr.onload = function() {
+                const response = JSON.parse(xhr.responseText);
+                setTimeout(function() {
+                  callback(response.result, response.size);
+                }, 2000);
+              };
+              var index = params.page * params.pageSize;
+              const url = 'https://demo.vaadin.com/demo-data/1.0/filtered-countries?index=' + index +
+                          '&count=' + params.pageSize +
+                          '&filter=' + params.filter;
+              xhr.open('GET', url, true);
+              xhr.send();
+            };
+          });
+        </script>
+      </template>
+    </vaadin-demo-snippet>
+
+  </template>
+  <script>
+    class ComboBoxBasicDemos extends DemoReadyEventEmitter(ComboBoxDemo(Polymer.Element)) {
+      static get is() {
+        return 'combo-box-basic-demos';
+      }
+    }
+    customElements.define(ComboBoxBasicDemos.is, ComboBoxBasicDemos);
+  </script>
+</dom-module>

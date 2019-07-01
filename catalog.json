@@ -1,0 +1,82 @@
+{
+  "packages": {
+    "vaadin-accordion": {
+      "git": "https://github.com/vaadin/vaadin-accordion"
+    },
+    "vaadin-app-layout": {
+      "git": "https://github.com/vaadin/vaadin-app-layout"
+    },
+    "vaadin-button": {
+      "git": "https://github.com/vaadin/vaadin-button"
+    },
+    "vaadin-checkbox": {
+      "git": "https://github.com/vaadin/vaadin-checkbox"
+    },
+    "vaadin-combo-box": {
+      "git": "https://github.com/vaadin/vaadin-combo-box"
+    },
+    "vaadin-context-menu": {
+      "git": "https://github.com/vaadin/vaadin-context-menu"
+    },
+    "vaadin-custom-field": {
+      "git": "https://github.com/vaadin/vaadin-custom-field"
+    },
+    "vaadin-date-picker": {
+      "git": "https://github.com/vaadin/vaadin-date-picker"
+    },
+    "vaadin-details": {
+      "git": "https://github.com/vaadin/vaadin-details"
+    },
+    "vaadin-dialog": {
+      "git": "https://github.com/vaadin/vaadin-dialog"
+    },
+    "vaadin-form-layout": {
+      "git": "https://github.com/vaadin/vaadin-form-layout"
+    },
+    "vaadin-grid": {
+      "git": "https://github.com/vaadin/vaadin-grid"
+    },
+    "vaadin-item": {
+      "git": "https://github.com/vaadin/vaadin-item"
+    },
+    "vaadin-list-box": {
+      "git": "https://github.com/vaadin/vaadin-list-box"
+    },
+    "vaadin-login": {
+      "git": "https://github.com/vaadin/vaadin-login"
+    },
+    "vaadin-menu-bar": {
+      "git": "https://github.com/vaadin/vaadin-menu-bar"
+    },
+    "vaadin-notification": {
+      "git": "https://github.com/vaadin/vaadin-notification"
+    },
+    "vaadin-ordered-layout": {
+      "git": "https://github.com/vaadin/vaadin-ordered-layout"
+    },
+    "vaadin-progress-bar": {
+      "git": "https://github.com/vaadin/vaadin-progress-bar"
+    },
+    "vaadin-radio-button": {
+      "git": "https://github.com/vaadin/vaadin-radio-button"
+    },
+    "vaadin-select": {
+      "git": "https://github.com/vaadin/vaadin-select"
+    },
+    "vaadin-split-layout": {
+      "git": "https://github.com/vaadin/vaadin-split-layout"
+    },
+    "vaadin-tabs": {
+      "git": "https://github.com/vaadin/vaadin-tabs"
+    },
+    "vaadin-text-field": {
+      "git": "https://github.com/vaadin/vaadin-text-field"
+    },
+    "vaadin-time-picker": {
+      "git": "https://github.com/vaadin/vaadin-time-picker"
+    },
+    "vaadin-upload": {
+      "git": "https://github.com/vaadin/vaadin-upload"
+    }
+  }
+}

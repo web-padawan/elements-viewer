@@ -1,0 +1,68 @@
+<dom-module id="combo-box-filtering-demos">
+  <template>
+    <style include="vaadin-component-demo-shared-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+
+    <h3>Filtering with a Remote Data Source</h3>
+    <vaadin-demo-snippet id="combo-box-filtering-demos-remote-data-source" when-defined="vaadin-combo-box">
+      <template preserve-content>
+
+        <iron-ajax auto></iron-ajax>
+        <vaadin-combo-box item-value-path="question_id" item-label-path="title"></vaadin-combo-box>
+
+        <script>
+          window.addDemoReadyListener('#combo-box-filtering-demos-remote-data-source', function(document) {
+            const API_URL = 'https://api.stackexchange.com/2.2/search/advanced?body=vaadin-combo-box&tagged=vaadin&site=stackoverflow&title=';
+            const ajax = document.querySelector('iron-ajax');
+            const comboBox = document.querySelector('vaadin-combo-box');
+
+            ajax.addEventListener('last-response-changed', function(e) {
+              comboBox.filteredItems = e.target.lastResponse.items;
+            });
+            comboBox.addEventListener('filter-changed', function(e) {
+              ajax.url = API_URL + comboBox.filter;
+            });
+
+            ajax.url = API_URL;
+          });
+        </script>
+      </template>
+    </vaadin-demo-snippet>
+
+
+    <h3>Custom Filtering</h3>
+    <p>Example uses case-sensitive starts-with filtering</p>
+    <vaadin-demo-snippet id="combo-box-filtering-demos-custom-filtering" when-defined="vaadin-combo-box">
+      <template preserve-content>
+        <vaadin-combo-box></vaadin-combo-box>
+        <script>
+          window.addDemoReadyListener('#combo-box-filtering-demos-custom-filtering', function(document) {
+            const comboBox = document.querySelector('vaadin-combo-box');
+
+            // NOTE: elements is an array of the form {'Carbon', ...}
+            comboBox.filteredItems = elements;
+
+            comboBox.addEventListener('filter-changed', function(e) {
+              comboBox.filteredItems = elements.filter(function(item) {
+                return item.indexOf(e.detail.value) === 0;
+              });
+            });
+          });
+        </script>
+      </template>
+    </vaadin-demo-snippet>
+
+  </template>
+  <script>
+    class ComboBoxFilteringDemos extends DemoReadyEventEmitter(ComboBoxDemo(Polymer.Element)) {
+      static get is() {
+        return 'combo-box-filtering-demos';
+      }
+    }
+    customElements.define(ComboBoxFilteringDemos.is, ComboBoxFilteringDemos);
+  </script>
+</dom-module>

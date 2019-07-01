@@ -1,0 +1,26 @@
+{
+  "name": "Vaadin Custom Field",
+  "pages": [
+  {
+    "name": "Basics",
+    "url": "custom-field-basic-demos",
+    "src": "custom-field-basic-demos.html",
+    "meta": {
+      "title": "Vaadin Custom Field Basics",
+      "description": "",
+      "image": ""
+     }
+  }
+  ,
+  {
+    "name": "Advanced Usage",
+    "url": "custom-field-advanced-demos",
+    "src": "custom-field-advanced-demos.html",
+    "meta": {
+      "title": "Vaadin Custom Field Advanced Examples",
+      "description": "",
+      "image": ""
+     }
+  }
+  ]
+}

@@ -1,0 +1,1 @@
+(function(){if("undefined"!==typeof self&&!self.Prism||"undefined"!==typeof global&&!global.Prism){return}Prism.hooks.add("wrap",function(env){if("keyword"!==env.type){return}env.classes.push("keyword-"+env.content)})})();

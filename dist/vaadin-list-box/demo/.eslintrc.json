@@ -1,0 +1,8 @@
+{
+  "rules": {
+  },
+  "globals": {
+    "ListBoxDemo": false,
+    "DemoReadyEventEmitter": false
+  }
+}

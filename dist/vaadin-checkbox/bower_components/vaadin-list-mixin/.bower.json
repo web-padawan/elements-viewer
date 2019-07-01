@@ -1,0 +1,43 @@
+{
+  "name": "vaadin-list-mixin",
+  "homepage": "https://vaadin.com/elements",
+  "authors": [
+    "Vaadin Ltd"
+  ],
+  "description": "vaadin-list-mixin",
+  "main": "vaadin-list-mixin.html",
+  "keywords": [
+    "Vaadin",
+    "vaadin-list-mixin",
+    "web-components",
+    "web-component",
+    "polymer"
+  ],
+  "license": "Apache-2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "package-lock.json",
+    "wct.conf.js"
+  ],
+  "dependencies": {
+    "polymer": "^2.0.0"
+  },
+  "devDependencies": {
+    "iron-test-helpers": "^2.0.0",
+    "web-component-tester": "^6.1.5",
+    "webcomponentsjs": "^1.0.0"
+  },
+  "version": "2.2.1",
+  "_release": "2.2.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.2.1",
+    "commit": "852155906949a2a1b66d13bd05e9e66ea51f63d1"
+  },
+  "_source": "https://github.com/vaadin/vaadin-list-mixin.git",
+  "_target": "^2.1.0",
+  "_originalSource": "vaadin/vaadin-list-mixin"
+}

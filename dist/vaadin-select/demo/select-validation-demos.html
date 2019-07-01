@@ -1,0 +1,82 @@
+<dom-module id="select-validation-demos">
+  <template>
+    <style include="vaadin-component-demo-shared-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h3>Using as a Form Field</h3>
+    <vaadin-demo-snippet id="select-validation" when-defined="vaadin-select">
+      <template preserve-content>
+        <iron-form>
+          <form method="post">
+            <vaadin-select name="title" label="Title" error-message="Please choose the option closest to your profession" required></vaadin-select>
+            <vaadin-button>Submit</vaadin-button>
+          </form>
+        </iron-form>
+
+        <script>
+          window.addDemoReadyListener('#select-validation', function(document) {
+            var form = document.querySelector('iron-form');
+
+            form.addEventListener('iron-form-presubmit', function(e) {
+              // Prevent actual form submission
+              e.preventDefault();
+              alert('Form submitted with title: ' + form.serializeForm().title);
+              return false;
+            });
+
+            var button = document.querySelector('vaadin-button');
+            button.addEventListener('click', function() {
+              form.submit();
+            });
+
+            const items = [
+              {value: 'sales', textContent: 'Account manager'},
+              {value: 'design', textContent: 'Designer'},
+              {value: 'marketing', textContent: 'Marketing manager'},
+              {value: 'dev', textContent: 'Developer'},
+            ];
+
+            document.querySelector('vaadin-select').renderer = function(root) {
+              if (root.firstChild) {
+                return;
+              }
+
+              const listBox = window.document.createElement('vaadin-list-box');
+
+              const select = window.document.createElement('vaadin-item');
+              select.textContent = 'Select your title';
+              select.setAttribute('value', '');
+              listBox.appendChild(select);
+
+              const divider = window.document.createElement('hr');
+              listBox.appendChild(divider);
+
+              items.forEach(function(row) {
+                const item = window.document.createElement('vaadin-item');
+                item.textContent = row.textContent;
+                if (row.value) {
+                  item.setAttribute('value', row.value);
+                }
+                listBox.appendChild(item);
+              });
+
+              root.appendChild(listBox);
+            };
+          });
+        </script>
+      </template>
+    </vaadin-demo-snippet>
+
+  </template>
+  <script>
+    class SelectValidationDemos extends DemoReadyEventEmitter(SelectDemo(Polymer.Element)) {
+      static get is() {
+        return 'select-validation-demos';
+      }
+    }
+    customElements.define(SelectValidationDemos.is, SelectValidationDemos);
+  </script>
+</dom-module>

@@ -1,0 +1,16 @@
+{
+  "globals": {
+    "HTMLImports": false,
+    "WCT": false,
+    "describe": false,
+    "beforeEach": false,
+    "fixture": false,
+    "it": false,
+    "expect": false,
+    "gemini": false,
+    "sinon": false,
+    "HTMLImports": false,
+    "MockInteractions": false,
+    "animationFrameFlush": false
+  }
+}

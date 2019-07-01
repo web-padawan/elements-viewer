@@ -1,0 +1,8 @@
+{
+  "rules": {
+  },
+  "globals": {
+    "MenuBarDemo": false,
+    "DemoReadyEventEmitter": false
+  }
+}

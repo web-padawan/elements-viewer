@@ -1,0 +1,2 @@
+(function(){if("undefined"===typeof self||!self.Prism||!self.document){return}Prism.hooks.add("before-sanity-check",function(env){if(env.code){var pre=env.element.parentNode,clsReg=/(?:^|\s)keep-initial-line-feed(?:\s|$)/;if(pre&&"pre"===pre.nodeName.toLowerCase()&&// Apply only if nor the <pre> or the <code> have the class
+!clsReg.test(pre.className)&&!clsReg.test(env.element.className)){env.code=env.code.replace(/^(?:\r?\n|\r)/,"")}}})})();

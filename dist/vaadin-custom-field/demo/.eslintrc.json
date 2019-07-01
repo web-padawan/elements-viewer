@@ -1,0 +1,8 @@
+{
+  "rules": {
+  },
+  "globals": {
+    "CustomFieldDemo": false,
+    "DemoReadyEventEmitter": false
+  }
+}

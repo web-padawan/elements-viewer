@@ -1,0 +1,24 @@
+{
+  "name": "elements-viewer",
+  "homepage": "https://github.com/web-padawan/elements-viewer",
+  "authors": [
+    "Vaadin Ltd"
+  ],
+  "description": "a simple catalog for demoing elements",
+  "main": "index.html",
+  "license": "Apache-2.0",
+  "private": true,
+  "dependencies": {
+    "polymer": "polymer/polymer#^2.0.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^2.0.0",
+    "iron-doc-viewer": "PolymerElements/iron-doc-viewer#^3.0.0",
+    "iron-location": "PolymerElements/iron-location#^2.0.1",
+    "vaadin-app-layout": "^2.0.0",
+    "vaadin-select": "^2.1.0",
+    "vaadin-item": "^2.1.0",
+    "vaadin-list-box": "^1.1.0",
+    "vaadin-progress-bar": "^1.1.0",
+    "vaadin-tabs": "^3.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.2.0"
+  }
+}
