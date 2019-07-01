@@ -1,6 +1,7 @@
 # elements-viewer
 
-This is an elements viewer based on the https://github.com/PolymerLabs/indie-catalog
+This is a viewer for [Vaadin core components](https://github.com/vaadin/vaadin#core-components) demo and API docs.
+
 ## Setup
 
 ### 1. Install npm dependencies

@@ -6,9 +6,6 @@
     "vaadin-app-layout": {
       "git": "https://github.com/vaadin/vaadin-app-layout"
     },
-    "vaadin-board": {
-      "git": "https://github.com/vaadin/vaadin-board"
-    },
     "vaadin-button": {
       "git": "https://github.com/vaadin/vaadin-button"
     },
@@ -18,17 +15,8 @@
     "vaadin-combo-box": {
       "git": "https://github.com/vaadin/vaadin-combo-box"
     },
-    "vaadin-confirm-dialog": {
-      "git": "https://github.com/vaadin/vaadin-confirm-dialog"
-    },
     "vaadin-context-menu": {
       "git": "https://github.com/vaadin/vaadin-context-menu"
-    },
-    "vaadin-cookie-consent": {
-      "git": "https://github.com/vaadin/vaadin-cookie-consent"
-    },
-    "vaadin-crud": {
-      "git": "https://github.com/vaadin/vaadin-crud"
     },
     "vaadin-custom-field": {
       "git": "https://github.com/vaadin/vaadin-custom-field"
@@ -47,9 +35,6 @@
     },
     "vaadin-grid": {
       "git": "https://github.com/vaadin/vaadin-grid"
-    },
-    "vaadin-grid-pro": {
-      "git": "https://github.com/vaadin/vaadin-grid-pro"
     },
     "vaadin-item": {
       "git": "https://github.com/vaadin/vaadin-item"
@@ -74,9 +59,6 @@
     },
     "vaadin-radio-button": {
       "git": "https://github.com/vaadin/vaadin-radio-button"
-    },
-    "vaadin-rich-text-editor": {
-      "git": "https://github.com/vaadin/vaadin-rich-text-editor"
     },
     "vaadin-select": {
       "git": "https://github.com/vaadin/vaadin-select"

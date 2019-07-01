@@ -17,7 +17,6 @@
     "vaadin-select": "^2.1.0",
     "vaadin-item": "^2.1.0",
     "vaadin-list-box": "^1.1.0",
-    "vaadin-ordered-layout": "^1.1.0",
     "vaadin-progress-bar": "^1.1.0",
     "vaadin-tabs": "^3.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.2.0"
